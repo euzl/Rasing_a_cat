@@ -8,6 +8,55 @@
 #include <arpa/inet.h>
 #include "udp.h"
 
+/*===============================================================
+[Program Name] : Butler
+[Description]  : 
+	- client 역할을 함
+[Input]        :
+[Output]       :
+[Calls]        :	        
+[특기사항]     : cat과 butler 프로그램을 동시에 실행시켜
+		 		 통신하며 게임이 진행된다.
+==================================================================*/
+
+int
+main(int argc, char *argv[])
+{
+	int					newSockfd, cliAddrLen, n, closep, level;
+	printf("I'm the only one who doesn't have a cat.\n\n");
+	char				cName[32]; // 고양이 이름 저장
+	struct sockaddr_in	cliAddr, servAddr;
+	MsgType				msg;
+
+	signal(SIGINT, CloseServer);
+
+	if ((Sockfd = socket(PF_INET, SOCK_DGRAM, 0)) < 0)  {
+		perror("socket");
+		exit(1);
+	}
+
+	// bzero: 바이트스트림을 0으로 채움
+	bzero((char *)&servAddr, sizeof(servAddr));
+	servAddr.sin_family = PF_INET;
+	servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	servAddr.sin_port = htons(SERV_UDP_PORT);
+
+	if (bind(Sockfd, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0)  {
+		perror("bind");
+		exit(1);
+	}
+
+	printf("Wait for adoption...\n");
+	
+	cliAddrLen = sizeof(cliAddr);
+
+	while (1)  {
+		// UDP 이용
+		if ((n = recvfrom(Sockfd, (char*) &msg, sizeof(msg),0, (struct sockaddr*)&cliAddr, &cliAddrLen)) <0){
+			perror("recvfrom");
+			exit(1);
+		}
+		
 int
 main(int argc, char *argv[])
 {

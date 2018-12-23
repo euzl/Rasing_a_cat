@@ -20,6 +20,17 @@ CloseServer()
 	exit(0);
 }
 
+/*===============================================================
+[Program Name] : Cat
+[Description]  : 
+	- server 역학을 함
+[Input]        :
+[Output]       :
+[Calls]        :	        
+	CloseServer()	// 서버 닫기용 함수
+[특기사항]     : cat과 butler 프로그램을 동시에 실행시켜
+		 		 통신하며 게임이 진행된다.
+==================================================================*/
 
 int
 main(int argc, char *argv[])
